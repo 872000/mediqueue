@@ -43,5 +43,16 @@ def pick_next(waiting, consecutive_urgent):
 
 
 def predict_service_time(category, rng):
-    mean, std = SERVICE_TIME[category]
+    """Sample a service time (minutes) for a ticket category.
+
+    Raises ValueError for an unknown category instead of a bare KeyError,
+    so a bad category surfaces as a readable configuration error.
+    """
+    try:
+        mean, std = SERVICE_TIME[category]
+    except KeyError:
+        valid = ", ".join(sorted(SERVICE_TIME))
+        raise ValueError(
+            f"Unknown ticket category: {category!r} (valid categories: {valid})"
+        ) from None
     return max(2.0, rng.normal(mean, std))

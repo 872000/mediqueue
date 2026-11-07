@@ -3,7 +3,7 @@
 # MediQueue 🏥
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue)](requirements.txt)
-[![Tests](https://img.shields.io/badge/tests-18%20passing-brightgreen)](#-running-it)
+[![Tests](https://img.shields.io/badge/tests-20%20passing-brightgreen)](#-running-it)
 [![ML](https://img.shields.io/badge/model-RandomForestRegressor-orange)](#-tech-stack)
 [![UN SDG 3](https://img.shields.io/badge/UN%20SDG%203-Good%20Health%20%26%20Well--Being-4C9F38)](#-why-un-sdg-3)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)

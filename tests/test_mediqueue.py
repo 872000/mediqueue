@@ -8,7 +8,8 @@ import pytest
 from mediqueue.db import QueueDB
 from mediqueue.predictor import WaitPredictor, generate_synthetic_data
 from mediqueue.simulate import simulate_day
-from mediqueue.triage import (MAX_CONSECUTIVE_URGENT, SERVICE_TIME, pick_next)
+from mediqueue.triage import (MAX_CONSECUTIVE_URGENT, SERVICE_TIME, pick_next,
+                              predict_service_time)
 
 FakeTicket = namedtuple("FakeTicket", ["ticket_no", "category", "arrived_at", "id"])
 
@@ -69,6 +70,18 @@ def test_all_urgent_queue_still_serves_when_capped():
     waiting = make_waiting(["urgent", "urgent"])
     ticket, capped = pick_next(waiting, consecutive_urgent=99)
     assert ticket is not None and ticket.category == "urgent"
+
+
+def test_predict_service_time_unknown_category_is_a_clear_error():
+    rng = np.random.default_rng(0)
+    with pytest.raises(ValueError, match="Unknown ticket category: 'vip'"):
+        predict_service_time("vip", rng)
+
+
+def test_predict_service_time_respects_two_minute_floor():
+    rng = np.random.default_rng(0)
+    for category in SERVICE_TIME:
+        assert predict_service_time(category, rng) >= 2.0
 
 
 # --- predictor --------------------------------------------------------------
