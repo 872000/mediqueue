@@ -35,6 +35,11 @@ class WaitPredictor:
 
     @staticmethod
     def features(queue_counts, hour_of_day, category):
+        if category not in CATEGORY_CODE:
+            valid = ", ".join(CATEGORIES)
+            raise ValueError(
+                f"Unknown ticket category: {category!r} (valid categories: {valid})"
+            )
         return np.array([[
             queue_counts.get("general", 0),
             queue_counts.get("followup", 0),

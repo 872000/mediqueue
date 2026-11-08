@@ -120,6 +120,11 @@ def test_predictor_requires_training():
         WaitPredictor().predict({"general": 1}, 9.0, "general")
 
 
+def test_predictor_rejects_unknown_category(trained_predictor):
+    with pytest.raises(ValueError, match="Unknown ticket category: 'vip'"):
+        trained_predictor.predict({"general": 1}, 10.5, "vip")
+
+
 # --- database ---------------------------------------------------------------
 def test_db_ticket_lifecycle():
     db = QueueDB()
